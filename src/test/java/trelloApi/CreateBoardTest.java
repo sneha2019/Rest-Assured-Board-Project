@@ -1,65 +1,57 @@
 package trelloApi;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
 
-public class CreateBoardTest {
+
+
+public class CreateBoardTest extends BaseTest {
 
     @Test
-    public void createBoard() {
-        RequestSpecification requestSpecification=given()
-                .queryParam("key", "0697ace29da135af1009cc535346c753")
-                .queryParam("token", "c9e7631e79903c345e53384685719427ffde19e39a2855cf0bfabd8e26516286")
-                .queryParam("name", "Retro").log().all()
-                .contentType(ContentType.JSON);
+    public void testGetListInfo() {
+        RestAssured.baseURI = "1/boards/";
+        RequestSpecification requestSpecification = given()
+                .queryParam("key", keyID)
+                .queryParam("token", tokenID)
+                .pathParam("boardID", boardId);
 
-        Response response=requestSpecification.when()
-                .post("https://api.trello.com/1/boards/");
-                System.out.println(response.body());
+        Response response = requestSpecification.when()
+                .get("1/boards/");
+        System.out.println(response.body());
 
         response.then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .extract()
-                .body()
-                .jsonPath().getMap("$");
+                .response()
+                .jsonPath()
+                .getMap("$");
 
-        Map<String, ?> map = response.jsonPath().getMap("$");
-                        String ExpectedBoardId=map.get("id").toString();
-                        String ExpectedBoardName =map.get("name").toString();
+        System.out.println(response.statusCode());
 
+        List<Map<String, ?>> listInfo = response.jsonPath().getList("$");
 
-         //Assert.assertEquals(ExpectedResult.).toString(),actualData.get(i).get("id").toString());
+       for (int i = 0; i < listInfo.size(); i++) {
+       System.out.println(listInfo.get(i).get("id").toString());
+       System.out.println(listInfo.get(i).get("name").toString());
 
-
-        Assert.assertEquals("Eve",actualData.get(0).get("first_name").toString());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     }
 
 }
+
