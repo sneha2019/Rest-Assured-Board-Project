@@ -33,7 +33,7 @@ public class CreateBoardTest extends BaseTest {
         //.contentType(ContentType.JSON);
 
         Response response = requestSpecification.when()
-                .get("1/boards/{id}/lists");
+                .get("boards/{id}/lists");
         System.out.println(response.body());
 
         response.then()
@@ -55,38 +55,8 @@ public class CreateBoardTest extends BaseTest {
 
     }
 
-   //@Test(priority = 2)
-    public void testCreateList() {
-        //createBoardTest();
-        RequestSpecification requestSpecification = given()
-                .queryParam("key", keyID)
-                .queryParam("token", tokenID)
-                .queryParam("name", "List1")
-                .queryParam("idBoard", boardId)
-                .contentType(ContentType.JSON)
-                .log().all();
 
-
-        Response response = requestSpecification.when()
-                .post("1/lists");
-         System.out.println("Response body after creating list--> "+ response.body());
-
-         System.out.println("Response code from create list -->" + response.statusCode());
-
-         response.then()            
-                 .statusCode(200) ;
-
-         Assert.assertEquals(response.getStatusCode(),200);
-
-         Map<Object, Object> map = response.jsonPath().getMap("$");
-                 System.out.println("List ID: " + map.get("id"));
-                 System.out.println("List Name: " + map.get("name"));
-                 listId = map.get("id").toString();
-                 System.out.println("listId = "+ listId);
-
-    }
-
-    @Test (priority = 3)
+    @Test (priority = 2)
     public void testCreateCard(){
         //testCreateList();
                     System.out.println("listId = "+ listId); 
@@ -100,7 +70,7 @@ public class CreateBoardTest extends BaseTest {
 
 
      Response response = requestSpecification.when()
-             .post("1/cards");
+             .post("cards");
       System.out.println("Response body after creating card--> "+ response.body());
 
       System.out.println("Response code from create card -->" + response.statusCode());
@@ -118,7 +88,7 @@ public class CreateBoardTest extends BaseTest {
     }   //end of testCreateCard
 
 
-    @Test (priority = 4)
+    @Test (priority = 3)
     public void testUpdateCard(){
         //testCreateCard();
                     System.out.println("CardId = "+ cardId);
@@ -131,7 +101,7 @@ public class CreateBoardTest extends BaseTest {
 
 
      Response response = requestSpecification.when()
-             .put("1/cards/{id}");
+             .put("cards/{id}");
       System.out.println("Response body after updating the card--> "+ response.body());
                                                                                              
       System.out.println("Response code from update card -->" + response.statusCode());
@@ -145,7 +115,7 @@ public class CreateBoardTest extends BaseTest {
               System.out.println("Card Id = "+ cardId);
     }   //end of testUpdateCard
 
-    @Test (priority = 5)
+    @Test (priority = 4)
     public void testDeleteCard(){
         //testCreateCard();
                     System.out.println("CardId = "+ cardId);
@@ -157,7 +127,7 @@ public class CreateBoardTest extends BaseTest {
 
 
      Response response = requestSpecification.when()
-             .delete("1/cards/{id}");
+             .delete("cards/{id}");
 
      response.then()
              .statusCode(200) ;

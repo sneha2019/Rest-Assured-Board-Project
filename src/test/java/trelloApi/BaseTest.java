@@ -23,7 +23,7 @@ public class BaseTest {
     @BeforeSuite
     public void setUp()
     {
-        RestAssured.baseURI = "https://api.trello.com/";
+        RestAssured.baseURI = "https://api.trello.com/1/";
         //String boardId = createBoardTest();
     }
 
@@ -38,7 +38,7 @@ public class BaseTest {
                 .log().all();
 
         Response response = requestSpecification.when().
-                post("1/boards/");
+                post("boards/");
         System.out.println(response.body());
 
         response.then()
@@ -66,7 +66,7 @@ public class BaseTest {
                 .queryParam("key", keyID)
                 .queryParam("token", tokenID).
                         when().
-                        delete("1/boards/{boardId}");
+                        delete("boards/{boardId}");
 
 
         //response.then();
