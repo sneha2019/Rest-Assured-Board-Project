@@ -6,32 +6,36 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class BaseTest {
-    String keyID = "";
-    String tokenID = "";
+    String keyID = "0697ace29da135af1009cc535346c753";
+    String tokenID = "70192f4e5cd20b4e9e0609d9fd0c241654ed824f6820618fff9a707321fdba18";
     String boardId;
+    String listId;
+    String cardId;
 
 
     @BeforeSuite
     public void setUp()
     {
         RestAssured.baseURI = "https://api.trello.com/";
-        String boardId = createBoardTest();
+        //String boardId = createBoardTest();
     }
 
-    public String createBoardTest() {
+     // String createBoardTest() {
+    @BeforeTest
+        void createBoardTest() {
         RequestSpecification requestSpecification = given()
                 .queryParam("key", keyID)
                 .queryParam("token", tokenID)
-                .queryParam("name", "Retro").log().all()
-                .contentType(ContentType.JSON);
+                .queryParam("name", "B1")
+                .contentType(ContentType.JSON)
+                .log().all();
 
         Response response = requestSpecification.when().
                 post("1/boards/");
@@ -49,14 +53,14 @@ public class BaseTest {
         System.out.println("Board Name: " + map.get("name"));
         boardId = map.get("id").toString();
         System.out.println(boardId);
-        Assert.assertEquals(map.get("name").toString(), "Retro");
-        return boardId;
+        Assert.assertEquals(map.get("name").toString(), "B1");
+        //return boardId;
     }
 
 
        @AfterTest
        private void tearDown(){
-
+        System.out.println("After test");
         Response response =  given()
                 .pathParam("boardID",boardId)
                 .queryParam("key", keyID)
