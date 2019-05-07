@@ -29,7 +29,7 @@ public class BaseTest {
 
      // String createBoardTest() {
     @BeforeTest
-        void createBoardTest() {
+        public void createBoardTest() {
         RequestSpecification requestSpecification = given()
                 .queryParam("key", keyID)
                 .queryParam("token", tokenID)

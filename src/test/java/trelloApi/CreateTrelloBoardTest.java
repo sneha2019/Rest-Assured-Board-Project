@@ -16,14 +16,10 @@ import static io.restassured.RestAssured.given;
 import static org.testng.AssertJUnit.assertEquals;
 
 
-public class CreateBoardTest extends BaseTest {
+public class CreateTrelloBoardTest extends BaseTest {
 
     @Test(priority = 1)
     public void testGetListInfo() {
-        //RestAssured.baseURI = "1/boards/";
-        //RestAssured.baseURI = "https://api.trello.com/";
-
-       // createBoardTest();
 
         RequestSpecification requestSpecification = given()
                 .queryParam("key", keyID)
